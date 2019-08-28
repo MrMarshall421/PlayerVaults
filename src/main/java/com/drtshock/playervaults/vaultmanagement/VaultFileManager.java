@@ -16,7 +16,6 @@ public class VaultFileManager {
 	public void migrateToMySQL() {
 		File base64Directory = new File("plugins/PlayerVaults/base64vaults");
 		File[] userFiles = base64Directory.listFiles();
-
 		if(userFiles.length > 0) {
 			for(File userFile : userFiles) {
 				String uuid = userFile.getName().replaceAll(".yml", "");
@@ -24,9 +23,11 @@ public class VaultFileManager {
 				for(int vaultNumber : getVaultNumbers(userFile)) {
 					YamlConfiguration userFileCfg = YamlConfiguration.loadConfiguration(userFile);
 
+					System.out.println("[PlayerVaults] Migrating " + uuid + " with VaultNumbers " + vaultNumber);
 					PlayerVaults.getInstance().getMySQL().getPlayerVaultsDB().createVault(userFileCfg.getString(String.format(VAULTKEY, vaultNumber)), uuid, vaultNumber);
 				}
 
+				System.out.println("[PlayerVaults] Deleting file of " + userFile.getName());
 				userFile.delete();
 			}
 		}
@@ -43,7 +44,7 @@ public class VaultFileManager {
 
 		for(String s : playerVaultFileCfg.getKeys(false)) {
 			try {
-				int number = Integer.valueOf(s.substring(4));
+				int number = Integer.valueOf(s.replaceAll("vault", ""));
 				vaults.add(number);
 			} catch(NumberFormatException ex) {
 			}

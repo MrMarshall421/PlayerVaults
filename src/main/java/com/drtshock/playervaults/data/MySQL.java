@@ -37,7 +37,7 @@ public class MySQL {
 
 	private void createTables() {
 		try {
-			connection.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS PlayerVaults (UUID VARCHAR(100), Inventory VARCHAR(10000), VaultNumber INT(100))");
+			connection.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS PlayerVaults (UUID VARCHAR(100), Inventory LONGTEXT, VaultNumber INT(100))");
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
