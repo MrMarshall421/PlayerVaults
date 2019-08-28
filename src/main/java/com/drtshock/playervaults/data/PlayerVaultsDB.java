@@ -16,9 +16,10 @@ public class PlayerVaultsDB {
 	private PlayerVaultsDB playerVaultsDB = this;
 
 	public void createVault(Inventory inventory, String target, int number) {
-			int size = VaultOperations.getMaxVaultSize(target);
-			String serialized = Base64Serialization.toBase64(inventory, size);
+		int size = VaultOperations.getMaxVaultSize(target);
+		String serialized = Base64Serialization.toBase64(inventory, size);
 
+		if(!vaultExists(target, number)) {
 			try {
 				PreparedStatement ps = PlayerVaults.getInstance().getMySQL().connection.prepareStatement("INSERT INTO PlayerVaults (UUID, Inventory, VaultNumber) VALUES (?, ?, ?)");
 				ps.setString(1, target);
@@ -28,7 +29,30 @@ public class PlayerVaultsDB {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		} else {
+			//> save vault instead of creating
+			saveVault(inventory, target, number);
 		}
+	}
+
+	public void createVault(String inventory, String target, int number) {
+		int size = VaultOperations.getMaxVaultSize(target);
+
+		if(!vaultExists(target, number)) {
+			try {
+				PreparedStatement ps = PlayerVaults.getInstance().getMySQL().connection.prepareStatement("INSERT INTO PlayerVaults (UUID, Inventory, VaultNumber) VALUES (?, ?, ?)");
+				ps.setString(1, target);
+				ps.setString(2, inventory);
+				ps.setInt(3, number);
+				ps.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} else {
+			//> save vault instead of creating
+			saveVault(inventory, target, number);
+		}
+	}
 
 	public void saveVault(Inventory inventory, String target, int number) {
 		int size = VaultOperations.getMaxVaultSize(target);
@@ -37,6 +61,20 @@ public class PlayerVaultsDB {
 		try {
 			PreparedStatement ps = PlayerVaults.getInstance().getMySQL().connection.prepareStatement("UPDATE PlayerVaults SET Inventory = ? WHERE UUID = ? AND VaultNumber = ?");
 			ps.setString(1, serialized);
+			ps.setString(2, target);
+			ps.setInt(3, number);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void saveVault(String inventory, String target, int number) {
+		int size = VaultOperations.getMaxVaultSize(target);
+
+		try {
+			PreparedStatement ps = PlayerVaults.getInstance().getMySQL().connection.prepareStatement("UPDATE PlayerVaults SET Inventory = ? WHERE UUID = ? AND VaultNumber = ?");
+			ps.setString(1, inventory);
 			ps.setString(2, target);
 			ps.setInt(3, number);
 			ps.executeUpdate();

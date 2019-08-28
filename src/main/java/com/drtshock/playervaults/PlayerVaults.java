@@ -124,6 +124,7 @@ public class PlayerVaults extends JavaPlugin {
         getCommand("pvdel").setExecutor(new DeleteCommand());
         getCommand("pvconvert").setExecutor(new ConvertCommand());
         getCommand("pvsign").setExecutor(new SignCommand());
+        getCommand("pvmigrate").setExecutor(new MigrateCommand());
         debug("registered commands", System.currentTimeMillis());
         useVault = setupEconomy();
         debug("setup economy", System.currentTimeMillis());

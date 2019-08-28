@@ -23,6 +23,9 @@ commands:
   pvreload:
     description: Reload the configuration and language files.
     permission: playervaults.admin
+  pvmigrate:
+    description: Migrates old vaults data to MySQL.
+    aliases: [vaultmigrate]
 
 permissions:
   playervaults.admin:
