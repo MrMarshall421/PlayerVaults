@@ -19,6 +19,7 @@
 package com.drtshock.playervaults;
 
 import com.drtshock.playervaults.commands.*;
+import com.drtshock.playervaults.data.MySQL;
 import com.drtshock.playervaults.listeners.Listeners;
 import com.drtshock.playervaults.listeners.SignListener;
 import com.drtshock.playervaults.listeners.VaultPreloadListener;
@@ -73,6 +74,7 @@ public class PlayerVaults extends JavaPlugin {
     private File uuidData;
     private File vaultData;
     private String _versionString;
+    private MySQL mySQL;
 
     public static PlayerVaults getInstance() {
         return instance;
@@ -94,6 +96,7 @@ public class PlayerVaults extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        mySQL = new MySQL();
         loadConfig();
         DEBUG = getConfig().getBoolean("debug", false);
         debug("config", System.currentTimeMillis());
@@ -140,6 +143,7 @@ public class PlayerVaults extends JavaPlugin {
         }.runTaskTimer(this, 20, 20);
 
         debug("enable done", System.currentTimeMillis());
+        mySQL.connect();
     }
 
     @Override
@@ -164,6 +168,8 @@ public class PlayerVaults extends JavaPlugin {
         if (getConfig().getBoolean("cleanup.enable", false)) {
             saveSignsFile();
         }
+
+        mySQL.disconnect();
     }
 
     @Override
@@ -409,5 +415,9 @@ public class PlayerVaults extends JavaPlugin {
 
     public boolean isSign(Material mat) {
         return mat.name().toUpperCase().contains("SIGN");
+    }
+
+    public MySQL getMySQL() {
+        return mySQL;
     }
 }

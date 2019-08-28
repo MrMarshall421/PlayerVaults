@@ -39,6 +39,14 @@ blocked-items:
   - PUMPKIN
   - DIAMOND_BLOCK
 
+#  MySQL Connection for Data Saving
+mysql:
+  host: "localhost"
+  port: "3306"
+  database: "mc"
+  username: "root"
+  password: ""
+
 # Cleanup
 #  Enabling this will purge vaults that haven't been touched in the specified time frame.
 #   Reminder: This is only checked during startup.

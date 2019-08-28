@@ -32,6 +32,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import java.util.Set;
+
 public class VaultCommand implements CommandExecutor {
 
     @Override
@@ -59,16 +61,17 @@ public class VaultCommand implements CommandExecutor {
                             target = searchPlayer.getUniqueId().toString();
                         }
 
-                        YamlConfiguration file = VaultManager.getInstance().getPlayerVaultFile(target, false);
-                        if (file == null) {
+                        if (!PlayerVaults.getInstance().getMySQL().getPlayerVaultsDB().playerVaultsExist(target)) {
                             sender.sendMessage(Lang.TITLE.toString() + Lang.VAULT_DOES_NOT_EXIST.toString());
                         } else {
-                            StringBuilder sb = new StringBuilder();
-                            for (String key : file.getKeys(false)) {
-                                sb.append(key.replace("vault", "")).append(" ");
+                            Set<Integer> vaults = PlayerVaults.getInstance().getMySQL().getPlayerVaultsDB().getVaultNumbers(target);
+                            String msg = "";
+
+                            for(int vault : vaults) {
+                                msg = msg + ", " + vault;
                             }
 
-                            sender.sendMessage(Lang.TITLE.toString() + Lang.EXISTING_VAULTS.toString().replaceAll("%p", args[0]).replaceAll("%v", sb.toString().trim()));
+                            sender.sendMessage(Lang.TITLE.toString() + Lang.EXISTING_VAULTS.toString().replaceAll("%p", args[0]).replaceAll("%v", msg));
                         }
                     }
                     break;

@@ -36,16 +36,16 @@ public class VaultPreloadListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event) {
         final UUID uuid = event.getPlayer().getUniqueId();
-        new BukkitRunnable() {
+       /* new BukkitRunnable() {
             @Override
             public void run() {
                 vm.cachePlayerVaultFile(uuid.toString());
             }
-        }.runTaskAsynchronously(PlayerVaults.getInstance());
+        }.runTaskAsynchronously(PlayerVaults.getInstance()); */
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerQuit(PlayerQuitEvent event) {
-        vm.removeCachedPlayerVaultFile(event.getPlayer().getUniqueId().toString());
+        //vm.removeCachedPlayerVaultFile(event.getPlayer().getUniqueId().toString());
     }
 }
