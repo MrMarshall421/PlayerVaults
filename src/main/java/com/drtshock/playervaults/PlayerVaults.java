@@ -29,6 +29,7 @@ import com.drtshock.playervaults.tasks.UUIDConversion;
 import com.drtshock.playervaults.translations.Lang;
 import com.drtshock.playervaults.translations.Language;
 import com.drtshock.playervaults.vaultmanagement.UUIDVaultManager;
+import com.drtshock.playervaults.vaultmanagement.VaultFileManager;
 import com.drtshock.playervaults.vaultmanagement.VaultManager;
 import com.drtshock.playervaults.vaultmanagement.VaultViewInfo;
 import net.milkbowl.vault.economy.Economy;
@@ -75,6 +76,7 @@ public class PlayerVaults extends JavaPlugin {
     private File vaultData;
     private String _versionString;
     private MySQL mySQL;
+    private VaultFileManager vaultFileManager;
 
     public static PlayerVaults getInstance() {
         return instance;
@@ -97,6 +99,7 @@ public class PlayerVaults extends JavaPlugin {
     public void onEnable() {
         instance = this;
         mySQL = new MySQL();
+        vaultFileManager = new VaultFileManager();
         loadConfig();
         DEBUG = getConfig().getBoolean("debug", false);
         debug("config", System.currentTimeMillis());
@@ -421,4 +424,5 @@ public class PlayerVaults extends JavaPlugin {
     public MySQL getMySQL() {
         return mySQL;
     }
+    public VaultFileManager getVaultFileManager() {return vaultFileManager;}
 }

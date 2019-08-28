@@ -11,9 +11,6 @@ import java.util.Set;
 
 public class VaultFileManager {
 
-	private static VaultFileManager instance;
-	public static VaultFileManager getVaultFileManager() {return instance;}
-
 	private static final String VAULTKEY = "vault%d";
 
 	public void migrateToMySQL() {

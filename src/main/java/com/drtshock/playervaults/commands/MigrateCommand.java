@@ -1,5 +1,6 @@
 package com.drtshock.playervaults.commands;
 
+import com.drtshock.playervaults.PlayerVaults;
 import com.drtshock.playervaults.translations.Lang;
 import com.drtshock.playervaults.vaultmanagement.VaultFileManager;
 import com.drtshock.playervaults.vaultmanagement.VaultOperations;
@@ -24,7 +25,7 @@ public class MigrateCommand implements CommandExecutor {
 					Player p = (Player) sender;
 
 					if(p.hasPermission("playervaults.migrate")) {
-						VaultFileManager.getVaultFileManager().migrateToMySQL();
+						PlayerVaults.getInstance().getVaultFileManager().migrateToMySQL();
 						p.sendMessage(Lang.TITLE + "§aData-Migration started.. please wait!");
 					} else {
 						sender.sendMessage(Lang.TITLE.toString() + Lang.NO_PERMS);
